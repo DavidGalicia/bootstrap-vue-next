@@ -10,6 +10,7 @@ import {readdirSync} from 'node:fs'
 import {basename, dirname, extname, join, relative} from 'node:path'
 import {copyFile} from 'fs/promises'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import {exec} from 'child_process'
 
 const readFilesInDirectory = (
   dir: string,
@@ -137,8 +138,8 @@ export default defineConfig({
         api: 'modern-compiler',
         charset: false,
         silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import'],
-      }
-    }
+      },
+    },
   },
 
   plugins: [
@@ -158,6 +159,16 @@ export default defineConfig({
             .filter((file) => file.endsWith('.d.ts'))
             .map((file) => copyFile(file, file.replace('.d.ts', '.d.mts')))
         )
+
+        await new Promise((resolve, reject) => {
+          exec('pnpm run update-web-types', (error, stdout, stderr) => {
+            if (error || stderr) {
+              reject(error || stderr)
+            } else {
+              resolve(stdout)
+            }
+          })
+        })
       },
     }),
   ],

@@ -125,7 +125,7 @@
     "dist",
     "src/**/*.scss"
   ],
-  "types": "./dist/src/BootstrapVue.d.ts",
+  "types": "./dist/src/index.d.ts",
   "private": false,
   "scripts": {
     "dev": "vite --port 5174",
@@ -140,8 +140,10 @@
     "test:lint:ci": "pnpm run test:lint",
     "test:unit:ci": "vitest run",
     "test": "pnpm run test:lint && pnpm run test:unit",
-    "test:ci": "pnpm run test:lint:ci && pnpm run test:unit:ci"
+    "test:ci": "pnpm run test:lint:ci && pnpm run test:unit:ci",
+    "update-web-types": "npx vue-docgen-web-types"
   },
+  "web-types": "./dist/web-types.json",
   "peerDependencies": {
     "@floating-ui/vue": "*",
     "@vueuse/core": "*",
@@ -192,7 +194,8 @@
     "vitest": "^2.1.5",
     "vue": "^3.5.13",
     "vue-router": "^4.4.5",
-    "vue-tsc": "^2.1.10"
+    "vue-tsc": "^2.1.10",
+    "vue-docgen-web-types": "^0.1.8"
   },
   "repository": {
     "type": "git",
