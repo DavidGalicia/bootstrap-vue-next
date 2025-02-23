@@ -10,6 +10,7 @@ import {readdirSync} from 'node:fs'
 import {basename, dirname, extname, join, relative} from 'node:path'
 import {copyFile} from 'fs/promises'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import {exec} from 'node:child_process'
 
 const readFilesInDirectory = (
   dir: string,
@@ -153,6 +154,15 @@ export default defineConfig({
       tsconfigPath: './tsconfig.app.json',
       outDir: './dist',
       afterBuild: async () => {
+        await new Promise((resolve, reject) => {
+          exec('pnpm run update-vue-global-components', (error, stdout, stderr) => {
+            if (error || stderr) {
+              reject(error || stderr)
+            } else {
+              resolve(stdout)
+            }
+          })
+        })
         await Promise.all(
           readFilesInDirectory('./dist/src/')
             .filter((file) => file.endsWith('.d.ts'))

@@ -125,7 +125,7 @@
     "dist",
     "src/**/*.scss"
   ],
-  "types": "./dist/src/BootstrapVue.d.ts",
+  "types": "./dist/src/index.d.ts",
   "private": false,
   "scripts": {
     "dev": "vite --port 5174",
@@ -140,7 +140,8 @@
     "test:lint:ci": "pnpm run test:lint",
     "test:unit:ci": "vitest run",
     "test": "pnpm run test:lint && pnpm run test:unit",
-    "test:ci": "pnpm run test:lint:ci && pnpm run test:unit:ci"
+    "test:ci": "pnpm run test:lint:ci && pnpm run test:unit:ci",
+    "update-vue-global-components": "node ./update-vue-global-components.mjs"
   },
   "peerDependencies": {
     "@floating-ui/vue": "*",
